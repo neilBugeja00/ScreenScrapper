@@ -4,12 +4,23 @@ import java.math.BigDecimal;
 
 public class Item {
 
-    //Declare
+
     private String title;
     private BigDecimal price;
     private String url;
     private String imageUrl;
 
+    public Item(){
+
+    }
+
+    public Item(String title, BigDecimal price, String url, String imageUrl){
+        this.title = title;
+        this.price = price;
+        this.url = url;
+        this.imageUrl = imageUrl;
+
+    }
 
     //Getters & Setters
     public String getTitle() {
