@@ -29,22 +29,40 @@ public class Main {
         webClient.getOptions().setPrintContentOnFailingStatusCode(false);
 
         try {
-            //HtmlPage page = webClient.getPage("https://foodnetwork.co.uk/italian-family-dinners/");
             HtmlPage page = webClient.getPage(baseUrl);
 
             String title = page.getTitleText();
             System.out.println("Page Title: " + title);
 
-            List<?> anchors = page.getByXPath("//a[@class='product-item-link']");
-            for (int i = 0; i < anchors.size(); i++) {
-                HtmlAnchor link = (HtmlAnchor) anchors.get(i);
 
-                //String recipeTitle = link.getAttribute("title").replace(',', ';');
-                String recipeLink = link.getHrefAttribute();
+            List<?> anchors = page.getByXPath("//div[@class='product-item-info']");
+
+            for (int i = 0; i < 63; i++) {
+
+                //Read product name & link
+                List<?> anchorName = page.getByXPath("//a[@class='product-item-link']");
+                HtmlAnchor link = (HtmlAnchor) anchorName.get(i);
+                String productLink = link.getHrefAttribute();
                 String name = link.getVisibleText();
 
-                System.out.println("Title: "+name);
-                System.out.println("Link: "+recipeLink);
+                //Read product price
+                List<?> anchorPrice = page.getByXPath("//span[@class='special-price']");
+                HtmlSpan linkPrice = (HtmlSpan) anchorPrice.get(i);
+                String price = linkPrice.getVisibleText().replace("Special Price","");
+
+                //Read product image
+                List<?> anchorImage = page.getByXPath("//img[@class='product-image-photo hovered-img']");
+                HtmlImage linkTop = (HtmlImage) anchorImage.get(i);
+                String image = linkTop.getAttribute("src");
+
+                int counter = i+1;
+                System.out.println("Number: "+ counter);
+                System.out.println("Title : "+name);
+                System.out.println("Link  : "+productLink);
+                System.out.println("Price : "+price);
+                System.out.println("Image : "+image);
+                System.out.println("");
+
 
             }
 
