@@ -1,20 +1,23 @@
 package edu.um.cps3230;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gargoylesoftware.htmlunit.*;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.*;
+import com.google.gson.Gson;
+import com.screenscrapper.Catalogue;
 import com.screenscrapper.Item;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URI;
+import java.net.http.HttpRequest;
 import java.util.List;
 
 public class Main {
 
     private static final String baseUrl = "https://www.scanmalta.com/shop/catalog/category/view/s/laptops-2/id/705/";
-    //private static final String baseUrl = "https://sfbay.craigslist.org/search/sss?query=iphone%208&sort=rel";
+    private static final String postUrl = "https://api.marketalertum.com/Alert";
 
     public static void main(String[] args) {
 
@@ -28,16 +31,12 @@ public class Main {
         webClient.getOptions().setThrowExceptionOnScriptError(false);
         webClient.getOptions().setPrintContentOnFailingStatusCode(false);
 
+        Catalogue catalogue = new Catalogue();
+
         try {
             HtmlPage page = webClient.getPage(baseUrl);
 
-            String title = page.getTitleText();
-            System.out.println("Page Title: " + title);
-
-
-            List<?> anchors = page.getByXPath("//div[@class='product-item-info']");
-
-            for (int i = 0; i < 63; i++) {
+            for (int i = 0; i < 5; i++) {
 
                 //Read product name & link
                 List<?> anchorName = page.getByXPath("//a[@class='product-item-link']");
@@ -48,7 +47,7 @@ public class Main {
                 //Read product price
                 List<?> anchorPrice = page.getByXPath("//span[@class='special-price']");
                 HtmlSpan linkPrice = (HtmlSpan) anchorPrice.get(i);
-                String stringPrice = linkPrice.getVisibleText().replace("Special Price","").replace("€","").replaceAll("\\s+","");
+                String stringPrice = linkPrice.getVisibleText().replace("Special Price","").replace("€","").replace(",","").replaceAll("\\s+","");
                 BigDecimal price = new BigDecimal(stringPrice);
 
                 //Read product image
@@ -60,22 +59,16 @@ public class Main {
                 //creating & populating item
 
                 Item item = new Item();
+
                 item.setTitle(name);
                 item.setUrl(productLink);
                 item.setPrice(price);
                 item.setImageUrl(image);
 
-                //testing
-                int counter = i+1;
-                System.out.println("Number: "+ counter);
-                System.out.println("Title : "+name);
-                System.out.println("Link  : "+productLink);
-                System.out.println("Price : "+price);
-                System.out.println("Image : "+image);
-                System.out.println("");
-
+                catalogue.addItem(item);
 
             }
+
 
             webClient.getCurrentWindow().getJobManager().removeAllJobs();
             webClient.close();
@@ -83,5 +76,8 @@ public class Main {
         } catch (IOException e) {
             System.out.println("An error occurred: " + e);
         }
+
+        catalogue.viewItems();
+
     }
 }
