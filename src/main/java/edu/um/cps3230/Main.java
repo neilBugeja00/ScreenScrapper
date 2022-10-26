@@ -48,13 +48,24 @@ public class Main {
                 //Read product price
                 List<?> anchorPrice = page.getByXPath("//span[@class='special-price']");
                 HtmlSpan linkPrice = (HtmlSpan) anchorPrice.get(i);
-                String price = linkPrice.getVisibleText().replace("Special Price","");
+                String stringPrice = linkPrice.getVisibleText().replace("Special Price","").replace("€","").replaceAll("\\s+","");
+                BigDecimal price = new BigDecimal(stringPrice);
 
                 //Read product image
                 List<?> anchorImage = page.getByXPath("//img[@class='product-image-photo hovered-img']");
                 HtmlImage linkTop = (HtmlImage) anchorImage.get(i);
                 String image = linkTop.getAttribute("src");
 
+
+                //creating & populating item
+
+                Item item = new Item();
+                item.setTitle(name);
+                item.setUrl(productLink);
+                item.setPrice(price);
+                item.setImageUrl(image);
+
+                //testing
                 int counter = i+1;
                 System.out.println("Number: "+ counter);
                 System.out.println("Title : "+name);
