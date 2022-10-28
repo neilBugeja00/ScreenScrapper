@@ -6,11 +6,9 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.*;
 import com.google.gson.Gson;
 import com.screenscrapper.Catalogue;
-import com.screenscrapper.Item;
 import com.screenscrapper.Transcript;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -24,6 +22,8 @@ public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
+        //HttpClient used for POST
+        HttpClient httpClient = HttpClient.newHttpClient();
 
         //=============================Scraping data=============================
         WebClient webClient = new WebClient(BrowserVersion.CHROME);
@@ -52,26 +52,34 @@ public class Main {
                 //Read product price
                 List<?> anchorPrice = page.getByXPath("//span[@class='special-price']");
                 HtmlSpan linkPrice = (HtmlSpan) anchorPrice.get(i);
-                String stringPrice = linkPrice.getVisibleText().replace("Special Price","").replace("€","").replace(",","").replaceAll("\\s+","");
-                BigDecimal price = new BigDecimal(stringPrice);
+                String stringPrice = linkPrice.getVisibleText().replace("Special Price","").replace("€","").replace(".","").replace(",","").replaceAll("\\s+","");
+                int price = Integer.parseInt(stringPrice);
 
                 //Read product image
                 List<?> anchorImage = page.getByXPath("//img[@class='product-image-photo hovered-img']");
                 HtmlImage linkTop = (HtmlImage) anchorImage.get(i);
                 String image = linkTop.getAttribute("src");
 
+                //creating & populating transcript used for POST
+                Transcript transcript = new Transcript();
+                transcript.setAlertType(6);
+                transcript.setDescription(name);
+                transcript.setHeading(name);
+                transcript.setUrl(productLink);
+                transcript.setImageUrl(image);
+                transcript.setPriceInCents(price);
 
-                //creating & populating item
+                Gson gson = new Gson();
+                String jsonRequest = gson.toJson(transcript);
 
-                Item item = new Item();
+                //Posting the JSON string
+                HttpRequest postRequest = HttpRequest.newBuilder()
+                        .uri(URI.create(postUrl))
+                        .POST(HttpRequest.BodyPublishers.ofString(jsonRequest))
+                        .header("content-type","application/problem+json")
+                        .build();
 
-                item.setTitle(name);
-                item.setUrl(productLink);
-                item.setPrice(price);
-                item.setImageUrl(image);
-
-                catalogue.addItem(item);
-
+                HttpResponse<String> postResponse = httpClient.send(postRequest, HttpResponse.BodyHandlers.ofString());
             }
 
             webClient.getCurrentWindow().getJobManager().removeAllJobs();
@@ -80,36 +88,6 @@ public class Main {
         } catch (IOException e) {
             System.out.println("An error occurred: " + e);
         }
-
-        catalogue.viewItems();
-
-        //Creating the JSON string
-        Transcript transcript = new Transcript();
-        transcript.setAlertType(6);
-        transcript.setDescription("Description");
-        transcript.setHeading("Heading");
-        transcript.setUrl("Url");
-        transcript.setImageUrl("Image Url");
-        transcript.setPriceInCents("2000");
-
-        Gson gson = new Gson();
-        String jsonRequest = gson.toJson(transcript);
-        System.out.println(jsonRequest);
-
-
-
-        //Posting the JSON string
-        HttpClient httpClient = HttpClient.newHttpClient();
-
-        HttpRequest postRequest = HttpRequest.newBuilder()
-                .uri(URI.create(postUrl))
-                .POST(HttpRequest.BodyPublishers.ofString(jsonRequest))
-                .header("content-type","application/problem+json")
-                .build();
-
-
-        HttpResponse<String> postResponse = httpClient.send(postRequest, HttpResponse.BodyHandlers.ofString());
-        System.out.println(postResponse.body());
 
     }
 }

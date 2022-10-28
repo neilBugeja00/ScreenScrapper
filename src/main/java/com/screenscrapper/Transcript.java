@@ -1,5 +1,7 @@
 package com.screenscrapper;
 
+import java.math.BigDecimal;
+
 public class Transcript {
 
 
@@ -8,7 +10,7 @@ public class Transcript {
     private String url;
     private String imageUrl;
     private String postedBy = "7ab74bc8-b292-4bd0-acd5-89c0ecb5c7a2";
-    private String priceInCents;
+    private int priceInCents;
     private int alertType;
 
     private String traceId;
@@ -73,11 +75,11 @@ public class Transcript {
         this.postedBy = postedBy;
     }
 
-    public String getPriceInCents() {
+    public int getPriceInCents() {
         return priceInCents;
     }
 
-    public void setPriceInCents(String priceInCents) {
+    public void setPriceInCents(int priceInCents) {
         this.priceInCents = priceInCents;
     }
 
