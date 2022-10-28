@@ -5,7 +5,6 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.*;
 import com.google.gson.Gson;
-import com.screenscrapper.Catalogue;
 import com.screenscrapper.Transcript;
 
 import java.io.IOException;
@@ -17,6 +16,7 @@ import java.util.List;
 
 public class Main {
 
+    //URLS used to scrape data and POST request
     private static final String baseUrl = "https://www.scanmalta.com/shop/catalog/category/view/s/laptops-2/id/705/";
     private static final String postUrl = "https://api.marketalertum.com/Alert/";
 
@@ -35,8 +35,6 @@ public class Main {
         webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
         webClient.getOptions().setThrowExceptionOnScriptError(false);
         webClient.getOptions().setPrintContentOnFailingStatusCode(false);
-
-        Catalogue catalogue = new Catalogue();
 
         try {
             HtmlPage page = webClient.getPage(baseUrl);
@@ -60,7 +58,7 @@ public class Main {
                 HtmlImage linkTop = (HtmlImage) anchorImage.get(i);
                 String image = linkTop.getAttribute("src");
 
-                //creating & populating transcript used for POST
+                //creating & populating transcript to be used for POST
                 Transcript transcript = new Transcript();
                 transcript.setAlertType(6);
                 transcript.setDescription(name);
@@ -80,6 +78,7 @@ public class Main {
                         .build();
 
                 HttpResponse<String> postResponse = httpClient.send(postRequest, HttpResponse.BodyHandlers.ofString());
+                System.out.println(postResponse.toString());
             }
 
             webClient.getCurrentWindow().getJobManager().removeAllJobs();
