@@ -14,8 +14,6 @@ public class Transcript {
     private int priceInCents;
     private int alertType;
 
-    private String traceId;
-
 
 
     //========================= Getters & Setters =========================
@@ -50,13 +48,6 @@ public class Transcript {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-    public String getTraceId() {
-        return traceId;
-    }
-
-    public void setTraceId(String traceId) {
-        this.traceId = traceId;
     }
 
     public int getAlertType() {

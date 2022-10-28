@@ -31,6 +31,8 @@ public class testScrapping {
     //Setting up tests
     @BeforeEach
     public void setup() throws IOException {
+        transcript = new Transcript();
+
         httpClient = HttpClient.newHttpClient();
         webClient = new WebClient(BrowserVersion.CHROME);
 
@@ -42,7 +44,6 @@ public class testScrapping {
         webClient.getOptions().setThrowExceptionOnScriptError(false);
         webClient.getOptions().setPrintContentOnFailingStatusCode(false);
 
-        transcript = new Transcript();
         page = webClient.getPage(baseUrl);
 
     }
@@ -64,7 +65,7 @@ public class testScrapping {
     }
 
     @Test
-    public void successfulManualTransciptPost() throws IOException, InterruptedException {
+    public void successfulManualTranscriptPost() throws IOException, InterruptedException {
         manualTranscript(transcript);
 
         Gson gson = new Gson();
@@ -92,7 +93,7 @@ public class testScrapping {
     }
 
     @Test
-    public void successfulScrapedTransciptPost() throws IOException, InterruptedException {
+    public void successfulScrapedTranscriptPost() throws IOException, InterruptedException {
         scrapedTranscript(transcript);
 
         Gson gson = new Gson();
