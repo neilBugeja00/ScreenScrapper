@@ -69,6 +69,7 @@ public class Main {
 
                 Gson gson = new Gson();
                 String jsonRequest = gson.toJson(transcript);
+                System.out.println(jsonRequest);
 
                 //Posting the JSON string
                 HttpRequest postRequest = HttpRequest.newBuilder()

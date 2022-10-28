@@ -9,7 +9,8 @@ public class Transcript {
     private String description;
     private String url;
     private String imageUrl;
-    private String postedBy = "7ab74bc8-b292-4bd0-acd5-89c0ecb5c7a2";
+
+    private final String postedBy = "7ab74bc8-b292-4bd0-acd5-89c0ecb5c7a2";
     private int priceInCents;
     private int alertType;
 
@@ -18,22 +19,6 @@ public class Transcript {
 
 
     //========================= Getters & Setters =========================
-
-    public String getTraceId() {
-        return traceId;
-    }
-
-    public void setTraceId(String traceId) {
-        this.traceId = traceId;
-    }
-
-    public int getAlertType() {
-        return alertType;
-    }
-
-    public void setAlertType(int alertType) {
-        this.alertType = alertType;
-    }
 
     public String getHeading() {
         return heading;
@@ -66,15 +51,21 @@ public class Transcript {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-
-    public String getPostedBy() {
-        return postedBy;
+    public String getTraceId() {
+        return traceId;
     }
 
-    public void setPostedBy(String postedBy) {
-        this.postedBy = postedBy;
+    public void setTraceId(String traceId) {
+        this.traceId = traceId;
     }
 
+    public int getAlertType() {
+        return alertType;
+    }
+
+    public void setAlertType(int alertType) {
+        this.alertType = alertType;
+    }
     public int getPriceInCents() {
         return priceInCents;
     }
