@@ -8,7 +8,7 @@ public class Transcript {
     private String url;
     private String imageUrl;
 
-    private final String postedBy = "7ab74bc8-b292-4bd0-acd5-89c0ecb5c7a2";
+    private final String postedBy = Variables.postedBy;
     private int priceInCents;
     private int alertType;
 
