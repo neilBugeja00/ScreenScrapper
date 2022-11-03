@@ -10,15 +10,17 @@ public class Main {
         try {
             //=============================Connecting to web services=============================
             WebClientConfig webClientConfig = new WebClientConfig();
+            webClientConfig.connect();
+            webClientConfig.isReachable(Variables.marketalertumList);
 
             for(int i=0; i<5; i++){
                 //Extracting data from web
-                Extract extract = new Extract();
-                extract.extractFromWeb(i, webClientConfig.getPage());
+                Scrapper scrapper = new Scrapper();
+                scrapper.extractFromWeb(i, webClientConfig.getPage());
 
                 //Saving data into transcript class
                 Transcript transcript = new Transcript();
-                transcript.populateTranscript(extract);
+                transcript.populateTranscript(scrapper);
 
                 //Converting transcript to JSON
                 Conversion conversion = new Conversion();

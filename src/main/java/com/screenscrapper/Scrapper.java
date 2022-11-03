@@ -8,7 +8,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 import java.io.IOException;
 import java.util.List;
 
-public class Extract {
+public class Scrapper {
     //Variables
     String name;
     String productLink;

@@ -5,10 +5,11 @@ import com.google.gson.Gson;
 public class Conversion {
     String jsonRequest;
 
-    public void convertToJson(Transcript transcript){
+    public String convertToJson(Transcript transcript){
         Gson gson = new Gson();
         jsonRequest = gson.toJson(transcript);
         System.out.println(jsonRequest);
+        return jsonRequest;
     }
 
     public String getJsonRequest() {

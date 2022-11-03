@@ -9,4 +9,10 @@ public class Variables {
 
     //Variable used in JSON file
     public static final String postedBy = "7ab74bc8-b292-4bd0-acd5-89c0ecb5c7a2";
+
+    //URL used to login in marketalertum
+    public static final String marketalertumLogin = "https://www.marketalertum.com/Alerts/Login";
+
+    //URL used to view list in marketalertum
+    public static final String marketalertumList = "https://www.marketalertum.com/Alerts/List";
 }
