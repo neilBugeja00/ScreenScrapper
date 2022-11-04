@@ -6,7 +6,8 @@ Feature: Alert Feature
     Given I am an administrator of the website and I upload 3 alerts
     Given I am a user of marketalertum
     When I view a list of alerts
-    Then each alert should contain an icon
+    Then I should see 3 alerts
+    And each alert should contain an icon
     And each alert should contain a heading
     And each alert should contain a description
     And each alert should contain an image

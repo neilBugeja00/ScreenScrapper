@@ -1,13 +1,12 @@
 package com.screenscrapper;
 
 import io.cucumber.java.After;
-import io.cucumber.java.AfterStep;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 
@@ -19,11 +18,12 @@ public class ScrapperSteps {
     WebAutomation webAutomation;
     ScrapAndPostClass scrapAndPost;
 
-    int headerCount;
-    int imageCount;
-    int priceCount;
-    int linkCount;
-    int descriptionCount;
+    int iconCount=0;
+    int headerCount=0;
+    int imageCount=0;
+    int priceCount=0;
+    int linkCount=0;
+    int descriptionCount=0;
     int numberOfRecords;
     String icon;
 
@@ -31,6 +31,14 @@ public class ScrapperSteps {
     public void iAmAUserOfMarketalertum(){
         webAutomation = new WebAutomation();
     }
+
+    //========================Setup========================
+    @Before
+    public void deleteRecords() throws IOException, InterruptedException {
+        PostClass.deleteFromWeb();
+    }
+
+
 
     //========================Correct login========================
     @When("I login using valid credentials")
@@ -78,31 +86,38 @@ public class ScrapperSteps {
         List<?> anchorRecords = webAutomation.driver.findElements(By.xpath("//table"));
         numberOfRecords = anchorRecords.size();
 
-        //Read product header
-        List<?> anchorHeader = webAutomation.driver.findElements(By.xpath("//h4"));
-        headerCount = anchorHeader.size();
-
-        //Read image
-        List<?> anchorImage = webAutomation.driver.findElements(By.xpath("//img"));
-        imageCount = anchorImage.size();
-
-        //Read description
-        List<?> anchorDescription = webAutomation.driver.findElements(By.xpath("//h4"));
-        descriptionCount = anchorDescription.size();
-
-        //Read price
-        List<?> anchorPrice = webAutomation.driver.findElements(By.xpath("//b"));
-        priceCount = anchorPrice.size();
-
-        //Read link
-        List<?> anchorLink = webAutomation.driver.findElements(By.xpath("//href"));
-        linkCount = anchorLink.size();
+        for(int i=1; i<numberOfRecords+1; i++){
+            //checking icon
+            if(webAutomation.driver.findElement(By.xpath("//table["+i+"]/tbody/tr[1]/td[1]/h4/img")).getAttribute("src")!=null){
+                iconCount++;
+            }
+            //checking header
+            if(webAutomation.driver.findElement(By.xpath("//table["+i+"]/tbody/tr[1]/td[1]/h4")).isDisplayed()){
+                headerCount++;
+            }
+            //checking image
+            if(webAutomation.driver.findElement(By.xpath("//table["+i+"]/tbody/tr[2]/td/img")).getAttribute("src")!=null){
+                imageCount++;
+            }
+            //checking description
+            if(webAutomation.driver.findElement(By.xpath("//table["+i+"]/tbody/tr[3]/td")).isDisplayed()){
+                descriptionCount++;
+            }
+            //checking price
+            if(webAutomation.driver.findElement(By.xpath("//table["+i+"]/tbody/tr[4]/td/b")).isDisplayed()){
+                priceCount++;
+            }
+            //checking link
+            if(webAutomation.driver.findElement(By.xpath("//table["+i+"]/tbody/tr[5]/td/a")).getAttribute("href")!=null){
+                linkCount++;
+            }
+        }
 
     }
 
     @Then("each alert should contain an icon")
     public void eachAlertShouldContainAnIcon() {
-        Assertions.assertEquals(numberOfRecords*2,imageCount);
+        Assertions.assertEquals(numberOfRecords,iconCount);
     }
 
     @And("each alert should contain a heading")
@@ -117,7 +132,7 @@ public class ScrapperSteps {
 
     @And("each alert should contain an image")
     public void eachAlertShouldContainAnImage() {
-        Assertions.assertEquals(numberOfRecords*2,imageCount);
+        Assertions.assertEquals(numberOfRecords,imageCount);
     }
 
     @And("each alert should contain a price")
@@ -127,7 +142,7 @@ public class ScrapperSteps {
 
     @And("each alert should contain a link to the original product website")
     public void eachAlertShouldContainALinkToTheOriginalProductWebsite() {
-        Assertions.assertEquals(0,linkCount);
+        Assertions.assertEquals(numberOfRecords,linkCount);
     }
 
     @Given("I am an administrator of the website and I upload more than {int} alerts")
@@ -137,7 +152,7 @@ public class ScrapperSteps {
     }
 
     @Then("I should see {int} alerts")
-    public void iShouldSeeAlerts(int arg0) throws IOException, InterruptedException {
+    public void iShouldSeeAlerts(int arg0){
         Assertions.assertEquals(arg0,numberOfRecords);
 
     }
@@ -198,10 +213,10 @@ public class ScrapperSteps {
 
 
 
-
-    //========================teardown========================
+    //========================Teardown========================
     @After
-    public void deleteRecords() throws IOException, InterruptedException {
+    public void deleteRecordsAfter() throws IOException, InterruptedException {
         PostClass.deleteFromWeb();
     }
+
 }
