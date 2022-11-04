@@ -1,4 +1,4 @@
-Feature: Web Scrapper
+Feature: Login Feature
 
   In order to stay up to date with new listings
   As a user of marketalertum

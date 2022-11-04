@@ -10,7 +10,7 @@ public class WebAutomation {
     WebDriver driver;
     String actualURL;
 
-    public void testUserLogin(String userID){
+    public void userLogin(String userID){
         driver = new ChromeDriver();
         driver.get("https://www.marketalertum.com/Alerts/Login");
 
