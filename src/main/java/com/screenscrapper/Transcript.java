@@ -38,10 +38,9 @@ public class Transcript {
 
     final String postedBy = Variables.postedBy;
     public int priceInCents;
-    public int alertType;
+    public int alertType=0;
 
     public void populateTranscript(Scrapper scrapper){
-        alertType = 6;
         description = scrapper.name;
         heading = scrapper.name;
         url = scrapper.productLink;

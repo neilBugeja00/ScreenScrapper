@@ -6,6 +6,7 @@ public class Variables {
 
     //URL used to post data
     public static final String postUrl = "https://api.marketalertum.com/Alert/";
+    public static final String deleteUrl = "https://api.marketalertum.com/Alert?userId=7ab74bc8-b292-4bd0-acd5-89c0ecb5c7a2";
 
     //Variable used in JSON file
     public static final String postedBy = "7ab74bc8-b292-4bd0-acd5-89c0ecb5c7a2";

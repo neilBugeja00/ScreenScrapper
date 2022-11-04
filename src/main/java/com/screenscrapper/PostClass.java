@@ -18,4 +18,18 @@ public class PostClass {
         HttpResponse<String> postResponse = httpClient.send(postRequest, HttpResponse.BodyHandlers.ofString());
         System.out.println(postResponse.toString());
     }
+
+    public static void deleteFromWeb() throws IOException, InterruptedException {
+        //Posting the JSON string
+        HttpRequest deleteRequest = HttpRequest.newBuilder()
+                .uri(URI.create(Variables.deleteUrl))
+                .DELETE()
+                .build();
+
+        WebClientConfig webClientConfig = new WebClientConfig();
+        webClientConfig.connect(Variables.baseUrl);
+
+        HttpResponse<String> postResponse = webClientConfig.getHttpClient().send(deleteRequest, HttpResponse.BodyHandlers.ofString());
+        System.out.println(postResponse.toString());
+    }
 }

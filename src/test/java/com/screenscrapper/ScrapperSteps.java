@@ -1,13 +1,17 @@
 package com.screenscrapper;
 
+import io.cucumber.java.After;
+import io.cucumber.java.AfterStep;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 
+import java.io.IOException;
 import java.util.List;
 
 public class ScrapperSteps {
@@ -21,6 +25,7 @@ public class ScrapperSteps {
     int linkCount;
     int descriptionCount;
     int numberOfRecords;
+    String icon;
 
     @Given("I am a user of marketalertum")
     public void iAmAUserOfMarketalertum(){
@@ -47,6 +52,14 @@ public class ScrapperSteps {
     public void iShouldSeeTheLoginScreenAgain() {
         Assert.assertEquals(webAutomation.actualURL, Variables.marketalertumLogin);
     }
+
+
+
+
+
+
+
+
 
     //========================3 Alerts========================
     @Given("I am an administrator of the website and I upload {int} alerts")
@@ -124,7 +137,71 @@ public class ScrapperSteps {
     }
 
     @Then("I should see {int} alerts")
-    public void iShouldSeeAlerts(int arg0) {
+    public void iShouldSeeAlerts(int arg0) throws IOException, InterruptedException {
         Assertions.assertEquals(arg0,numberOfRecords);
+
+    }
+
+
+
+
+
+
+
+
+
+    //========================icon check========================
+    @Given("I am an administrator of the website and I upload an alert of type {int}")
+    public void iAmAnAdministratorOfTheWebsiteAndIUploadAnAlertOfType(int arg0) {
+        scrapAndPost = new ScrapAndPostClass();
+        scrapAndPost.postAlertType=arg0;
+        scrapAndPost.ScrapAndPost(1);
+    }
+
+    @And("the icon displayed should be icon-car.png")
+    public void theIconDisplayedShouldBeIconCarPng() {
+        icon = webAutomation.driver.findElement(By.xpath("//table[1]/tbody/tr[1]/td[1]/h4/img")).getAttribute("src");
+        Assertions.assertEquals("https://www.marketalertum.com/images/icon-car.png",icon);
+    }
+
+    @And("the icon displayed should be icon-boat.png")
+    public void theIconDisplayedShouldBeIconBoatPng() {
+        icon = webAutomation.driver.findElement(By.xpath("//table[1]/tbody/tr[1]/td[1]/h4/img")).getAttribute("src");
+        Assertions.assertEquals("https://www.marketalertum.com/images/icon-boat.png",icon);
+    }
+
+    @And("the icon displayed should be icon-property-rent.png")
+    public void theIconDisplayedShouldBeIconPropertyRentPng() {
+        icon = webAutomation.driver.findElement(By.xpath("//table[1]/tbody/tr[1]/td[1]/h4/img")).getAttribute("src");
+        Assertions.assertEquals("https://www.marketalertum.com/images/icon-property-rent.png",icon);
+    }
+
+    @And("the icon displayed should be icon-property-sale.png")
+    public void theIconDisplayedShouldBeIconPropertySalePng() {
+        icon = webAutomation.driver.findElement(By.xpath("//table[1]/tbody/tr[1]/td[1]/h4/img")).getAttribute("src");
+        Assertions.assertEquals("https://www.marketalertum.com/images/icon-property-sale.png",icon);
+    }
+
+    @And("the icon displayed should be icon-toys.png")
+    public void theIconDisplayedShouldBeIconToysPng() {
+        icon = webAutomation.driver.findElement(By.xpath("//table[1]/tbody/tr[1]/td[1]/h4/img")).getAttribute("src");
+        Assertions.assertEquals("https://www.marketalertum.com/images/icon-toys.png",icon);
+    }
+
+    @And("the icon displayed should be icon-electronics.png")
+    public void theIconDisplayedShouldBeIconElectronicsPng() {
+        icon = webAutomation.driver.findElement(By.xpath("//table[1]/tbody/tr[1]/td[1]/h4/img")).getAttribute("src");
+        Assertions.assertEquals("https://www.marketalertum.com/images/icon-electronics.png",icon);
+    }
+
+
+
+
+
+
+    //========================teardown========================
+    @After
+    public void deleteRecords() throws IOException, InterruptedException {
+        PostClass.deleteFromWeb();
     }
 }
