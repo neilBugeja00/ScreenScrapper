@@ -6,9 +6,16 @@ import org.junit.jupiter.api.Test;
 public class testScrapping {
 
     @Test
+    public void postJsonToWeb(){
+        //Setup
+        PostClass postClass = new PostClass();
+
+    }
+    @Test
     public void correctConversionTranscriptToJSON(){
         //Setup
         Transcript mockTranscript = new Transcript();
+
 
         mockTranscript.heading="Heading";
         mockTranscript.description="Desc";

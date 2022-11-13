@@ -29,9 +29,6 @@ public class ScrapAndPostClass {
                 PostClass.postToWeb(Variables.postUrl, conversion.getJsonRequest(), webClientConfig.getHttpClient());
             }
 
-            //Deleting
-            //PostClass.deleteFromWeb();
-
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }

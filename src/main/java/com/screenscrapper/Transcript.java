@@ -19,17 +19,10 @@ public class Transcript {
         return imageUrl;
     }
 
-    public String getPostedBy() {
-        return postedBy;
-    }
-
     public int getPriceInCents() {
         return priceInCents;
     }
 
-    public int getAlertType() {
-        return alertType;
-    }
 
     public String heading;
     public String description;

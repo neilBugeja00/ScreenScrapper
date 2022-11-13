@@ -9,7 +9,6 @@ import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -27,11 +26,6 @@ public class ScrapperSteps {
     int numberOfRecords;
     String icon;
 
-    @Given("I am a user of marketalertum")
-    public void iAmAUserOfMarketalertum(){
-        webAutomation = new WebAutomation();
-    }
-
     //========================Setup========================
     @Before
     public void deleteRecords() throws IOException, InterruptedException {
@@ -40,7 +34,14 @@ public class ScrapperSteps {
 
 
 
+
+
     //========================Correct login========================
+    @Given("I am a user of marketalertum")
+    public void iAmAUserOfMarketalertum(){
+        webAutomation = new WebAutomation();
+    }
+
     @When("I login using valid credentials")
     public void iLoginUsingValidCredentials() {
         webAutomation.userLogin(Variables.postedBy);
@@ -215,8 +216,8 @@ public class ScrapperSteps {
 
     //========================Teardown========================
     @After
-    public void deleteRecordsAfter() throws IOException, InterruptedException {
-        PostClass.deleteFromWeb();
+    public void deleteRecordsAfter() {
+        //webAutomation.closeDriver();
     }
 
 }

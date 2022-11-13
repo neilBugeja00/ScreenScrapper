@@ -27,4 +27,5 @@ public class WebAutomation {
         actualURL= driver.getCurrentUrl();
     }
 
+
 }
