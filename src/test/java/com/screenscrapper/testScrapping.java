@@ -3,14 +3,9 @@ package com.screenscrapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+
 public class testScrapping {
 
-    @Test
-    public void postJsonToWeb(){
-        //Setup
-        PostClass postClass = new PostClass();
-
-    }
     @Test
     public void correctConversionTranscriptToJSON(){
         //Setup
